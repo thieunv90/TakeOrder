@@ -6,6 +6,7 @@ gem 'pg'
 gem 'jquery-rails'
 gem 'devise', '3.2.2'
 gem 'rolify'
+gem 'rails_12factor', group: :production
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
