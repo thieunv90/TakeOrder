@@ -36,8 +36,12 @@ development:
   <<: *login
   database: takeorder_dev
 production:
-  <<: *login
-  database: takeorder_dev
+  adapter: postgresql
+  host: ec2-23-23-177-33.compute-1.amazonaws.com
+  database: d7ks6akmfptr4h
+  username: lqecymkbbsqghh
+  password: _MCBRxDrehos5fDddn1ONEPiTr
+  port: 5432
 test:
   <<: *login
   database: takeorder_test
