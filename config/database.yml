@@ -36,7 +36,6 @@ development:
   <<: *login
   database: takeorder_dev
 production:
-  adapter: postgresql
   host: ec2-23-23-177-33.compute-1.amazonaws.com
   database: d7ks6akmfptr4h
   username: lqecymkbbsqghh
