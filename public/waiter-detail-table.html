@@ -1,0 +1,115 @@
+<div data-role="page" id="waiter-detail-table-page" class="relative" >
+	<div data-role="header" class="header fixed">
+    	Phục vụ
+    </div><!-- /header -->
+	<div id="waiter-detail-table-page-content" data-role="content" class="relative no-padding">
+		<div class="tab-content notebook-wrapper">
+			<div>
+				<span id="table-id" class="center caption">Chi tiết bàn</span>
+				<div id="list-ordered">
+
+				</div>
+
+	         	<div class="checkout">
+	         		<span id="sum-money" class="sum">Tổng tiền: 0K</span>
+	         		<div style="margin-top: 20px; overflow: hidden">
+		         		<div id="waiter-check-out">Tính tiền</div>
+		         		<div id="waiter-add-new">Gọi thêm</div>
+	         		</div>
+	         	</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('#waiter-detail-table-page').ready(function(){
+		    	 $(".notebook-wrapper").height($(window).height());
+
+				// get data from server for detail table
+				// Data is list of drink dishes
+		    	// Check internet connection
+				// if(!App.hasInternet()){
+				// 	App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+				// 	return;
+				// }
+
+				tableID = '';
+				statusID = '';
+				sumMoney = 0;
+				$("#sum-money").html('Tổng tiền: 0K');
+				$("#list-ordered").empty();
+
+				setTimeout(function(){
+					statusID = App.urlParam('status_id');
+					tableID = App.urlParam('table');
+					$("#table-id").html("Chi tiết bàn " + tableID);
+
+					App.loading(true);
+					$.ajax(
+					{
+					    type: "GET",
+					    url: 'http://localhost:3000/api/v1/foods/ordered?table_id='
+					    						+ tableID + '&status_id=' + statusID,
+					    dataType: "json",
+					    success: function (data) {
+					    	App.loading(false);
+					    	console.log(data);
+					    	var fullRow = true;
+					    	var row = '';
+					    	$.each(data, function(i, theItem){
+
+					    		row += '<div class="detail">';
+					    		row += '<span class="name">'+ theItem.food_name +'</span>',
+					    		row += '<span class="quality">'+ theItem.quantity +'</span>',
+					    		// TODO: add options
+					    		row += '<span class="into_money">'+ theItem.quantity +' * '+ theItem.unit_price +'K = '+ eval(theItem.quantity*theItem.unit_price) +'K</span></div>';
+
+					    		sumMoney = eval(sumMoney + eval(theItem.quantity*theItem.unit_price));
+				    			$("#list-ordered").append(row);
+				    			row = "";
+					    	});
+					    	$("#sum-money").html('Tổng tiền: '+ sumMoney +'K');
+					    },
+					    error: function (error) {
+					    	App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+					    	App.loading(false);
+					    }
+				   });// End ajax
+				}, 100);
+			});
+
+			$("#waiter-check-out").click(function(){
+				if(statusID != 3){
+					// not ordered
+					App.showAlert("Đang chờ phục vụ, không thể tính tiền!", function(){}, "OK");
+				}else {
+
+					// has ordered
+					// Update status of table in database on server
+					App.showConfirm("Bạn có muốn tính tiền bàn này?", function(buttonIndex){
+						if(buttonIndex == 2) {
+							App.loading(true);
+							$.ajax(
+							{
+							    type: "GET",
+							    url: 'http://localhost:3000/api/v1/order_details/checkout?table_id=' + tableID,
+							    dataType: "json",
+							    success: function (data) {
+							    	App.loading(false);
+							    	App.showAlert("Đã tính tiền!", function(){
+							    		navigator.app.backHistory();
+							    	}, "OK");
+							    },
+							    error: function (error) {
+							    	App.showAlert("Không thể tính tiền", function(){}, "OK");
+							    	App.loading(false);
+							    }
+						   });// End ajax
+						}
+					}); // End confirm
+				}
+			});
+			$("#waiter-add-new").click(function(){
+				App.showAlert("Chức năng chưa được thực thi.", function(){}, "OK");
+			});
+		</script>
+    </div><!-- End #waiter-detail-table-page-content -->
+</div><!-- End #waiter-detail-table-page -->

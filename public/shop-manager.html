@@ -1,0 +1,101 @@
+<div data-role="page" id="shop-manager-page" class="relative">
+	<div data-role="header" class="header fixed">
+    	Quản lý
+    </div><!-- /header -->
+	<div id="shop-manager-page-content" data-role="content" class="relative no-padding">   
+        
+        <div class="tab-content notebook-wrapper">
+            <div class="tab1">
+                <table>
+				   <caption>Danh sách bàn</caption>
+				   <thead>
+				      <tr>
+				         <th style="width: 30%">Tên/Số</th>
+				         <th style="width: 20%">Tổng</th>
+				         <th style="width: 50%">Trạng thái</th>
+				      </tr>
+				   </thead>
+				   <tbody id="list-table">
+				   		<!-- Will append --> 
+				   </tbody>
+				</table>
+            </div>
+            <div class="tab3 ui-screen-hidden">
+                <h2 class="bold center">Nhân viên mới</h2>
+                <input type="text" id="employee-name" placeholder="Mã nhân viên" />
+                <input type="password" id="employee-password" placeholder="Mật khẩu" />
+                <p>Vị trí:</p>
+                <select id="employee-position" name="employee-position">
+                	<option value="waiter">Phục vụ</option>
+                	<option value="chef cook">Chế biến</option>
+                	<option value="sub-manager">Quản lý viên</option>
+                </select>
+                <div class="one-two left">
+                	<button type="reset">Làm lại</button>
+            	</div>
+            	<div class="one-two right">
+                	<button type="button">Thêm</button>
+                </div>
+            </div>
+        </div><!-- End #tab-content -->
+        <div data-role="navbar" id="navbar">
+            <ul>
+                <li><a href="#" class="ui-btn-active" data-tab-class="tab1">Quán hôm nay</a></li>
+                <li><a href="#" data-tab-class="tab3">Thêm mới</a></li>
+            </ul>
+        </div><!-- End #navbar -->
+    </div><!-- End #shop-manager-page-content -->
+    
+    <script>
+    	var prevSelection = "tab1";
+	    $("#navbar ul li").click(function(){
+	    	var newSelection = $(this).children("a").attr("data-tab-class");
+	    	$("."+prevSelection).addClass("ui-screen-hidden");
+            $("."+newSelection).removeClass("ui-screen-hidden");
+            prevSelection = newSelection;
+	    });
+	    $('#shop-manager-page').ready(function(){
+	    	$(".notebook-wrapper").height($(window).height());
+	    	 
+	    	// Get data from server
+	    	// Data is list of table and these table status
+	    	// Check internet connection
+			if(!App.hasInternet()){
+				App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+				return;
+			}
+			setTimeout(function(){
+				personID = App.urlParam('person_id');
+				console.log(personID);
+				App.loading(true);
+				$.ajax(
+				{
+				    type: "GET",
+				    url: 'http://coffee.tuisolutions.com.vn/index.php/api/listtable/shopmanager?person_id='+personID,
+				    dataType: "jsonp",
+				    success: function (data) {
+				    	App.loading(false);
+				    	console.log(data);
+				    	$.each(data, function(i, theItem){
+				    		var status = "Đang trống";
+				    		sumMoney = 0;
+				    		if(theItem.status == 2){
+				    			status = "Đã gọi món";
+				    			sumMoney = theItem.sumMoney;
+				    		}else if(theItem.status == 3){
+				    			status = "Đã phục vụ";
+				    			sumMoney = theItem.sumMoney;
+				    		}
+				    		$("#list-table").append('<tr><td>' + theItem.name + '</td><td>'+sumMoney+'K</td><td>'+status+'</td></tr>');
+				    	});
+				    },
+				    error: function (error) {
+				    	App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+				    	App.loading(false);
+				    }
+			   });// End ajax
+			}, 100);
+	    });
+	</script>
+	
+</div><!-- End #shop-manager-page -->

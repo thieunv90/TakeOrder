@@ -13,6 +13,7 @@ end
 admin.add_role :admin
 admin.save
 
+# Create Employee
 for i in 1..5 do
   user = User.find_by_username("employee#{i}")
   if !user
@@ -20,4 +21,32 @@ for i in 1..5 do
     user.save
   end
   user.add_role :employee
+end
+
+# Create Chef
+for j in 1..5 do
+  chef = User.find_by_username("chef#{j}")
+  if !chef
+    chef = User.new(username: "chef#{j}", password: "12345678", password_confirmation: "12345678")
+    chef.save
+  end
+  chef.add_role :chef
+end
+
+# Create Table
+for m in 1..5 do
+  table = Table.find_by_name("Table #{m}")
+  if !table
+    table = Table.new(name: "Table #{m}", status: 1)
+    table.save
+  end
+end
+
+# Create Food
+for n in 1..5 do
+  food = Food.find_by_name("Food #{n}")
+  if !food
+    food = Food.new(name: "Food #{n}", price: Random.rand(50000))
+    food.save
+  end
 end

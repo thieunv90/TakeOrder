@@ -1,0 +1,336 @@
+/*** RESET CSS ***/
+* { margin: 0; padding: 0; }
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	font: italic 20px/20px 'Loved by the King', cursive;
+}
+
+ul, ol {list-style: none;}
+strong {font-weight: bold;}
+
+article, aside, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+h1, h2, h3, h4, h5 {}
+a img { border: 0; }
+a{
+	text-decoration: none;
+}
+
+.ui-input-text, .ui-btn-corner-all {
+    border-radius: 0px !important;
+}
+.ui-page {
+	background: url('images/body.png') repeat transparent !important;
+}
+.one-two {
+	width: 48%;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.relative {
+	position: relative;
+}
+.no-padding {
+	padding: 0px;
+}
+.fixed {
+	position: fixed;
+}
+.button {
+	text-align: center;
+	padding: 10px;
+	background: #0e7fad;
+	color: #fff;
+}
+
+/***** SPLASH PAGE *****/
+#splash-page-content {
+	margin: 150px 10px;
+}
+/***** LOGIN PAGE *****/
+#login-page-content {
+	margin: 20px 20px;
+}
+#splash-page-content #logo, #login-page-content #logo{
+	background: url("images/logo.png") no-repeat scroll center top transparent;
+    height: 135px;
+    text-indent: -9999999px;
+    width: 100%;;
+}
+#splash-page-content h1.app-name, #login-page-content h1.app-name {
+	font-size: 25px;
+	font-weight: bold;
+	text-align: center;
+}
+#login-page-content p {
+	text-align: center;
+}
+#login-page-content p.login-tip {
+	padding: 10px 10px 0 10px;
+}
+/***** INFOMATION MESSAGE *****/
+.info, .success, .busy, .free, #waiter-add-new, #waiter-check-out {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  margin: 1px 1px 0;
+}
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  background-image: url('images/info-icon.png');
+}
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  background-image:url('images/success-icon.png');
+}
+
+.free, .busy, .waiting, .detail, .checkout{
+	margin:20px 50px;
+	padding:10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 4px 4px #dfe1d8;
+	-webkit-box-shadow: 4px 4px #dfe1d8;
+	box-shadow: 4px 4px #dfe1d8;
+}
+.free{
+	border:1px solid #4f8746;
+	color:#4f8746;
+	background:#d4ffcd url('images/success.png') no-repeat;
+	background-position: center center;
+}
+.busy{
+	border:1px solid #9638f1;
+	color:#9638f1;
+	background:#e5cefc url('images/secure.png') no-repeat;
+	background-position: center center;
+}
+.waiting {
+	border:1px solid #9d9c49;
+	color:#9d9c49;
+	background:#fdfdcb url('images/waiting.png') no-repeat;
+	background-position: center center;
+}
+.detail {
+	border:1px solid #0e7fad;
+	color:#0e7fad;
+	margin: 20px 0px;
+	overflow: hidden;
+}
+.name {
+	float: left;
+	font-weight: bold;
+	font-size: 20px;
+}
+div.name {
+	float: none;
+	margin-bottom: 20px;
+}
+.quality {
+	float: right;
+	font-weight: bold;
+	font-size: 20px;
+	padding-right: 10px;
+	text-align: center;
+}
+.quality img {
+	width: 30px;
+	height: 30px;
+}
+.options, .into_money{
+	clear: both;
+	padding-top: 15px;
+	display: block;
+}
+.into_money {
+	text-align: right;
+}
+
+.options div {
+	padding-top: 5px;
+}
+.options img {
+	float: left;
+    margin-right: 10px;
+
+}
+.checkout {
+	border:1px solid #426164;
+	color:#426164;
+	background:#c2e1e3 url('images/purchase.png') no-repeat;
+	background-position:5px 5px;
+	margin: 20px 0px;
+	text-align: right;
+}
+
+#waiter-check-out {
+	width: 35%;
+	float: left;
+	margin-left: 5%;
+	text-align: center;
+	padding: 5px;
+}
+#waiter-add-new {
+	float: right;
+	text-align: center;
+	width: 35%;
+	margin-right: 5%;
+	padding: 5px;
+}
+.ui-btn input, .ui-btn button {
+	z-index: 0;
+}
+/***** SHOP MANAGER & CHEF COOK & CHEF COOK DETAIL & LIST TABLE*****/
+#navbar, .bottom {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+#navbar span.ui-btn-text{
+	font-size: 18px !important;
+}
+
+.header{
+	padding: 5px 0px;
+	text-align: center;
+	color: #fff;
+	z-index: 100;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+}
+
+.tab-content{
+    width:100%;
+    height: 100%;
+    background-color: transparent;
+    overflow: scroll;
+    margin-top: 80px;
+}
+.tab-content > div {
+	padding: 5px 20px 5px 20px;
+	margin-bottom: 30px;
+}
+table {
+	width: 100%;
+	text-align: center;
+}
+caption, .caption {
+	font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-top: 4px;
+}
+.caption{
+	display: block;
+}
+.pick {
+	background: #C0E9FA;
+    color: #0E7FAD;
+}
+th {
+	font-size: 16px;
+	font-weight: bold;
+}
+.bold {
+	font-weight: bold !important;
+}
+.center {
+	text-align: center;
+}
+#waiter-detail-table-page .tab-content .ui-btn,
+#waiter-order-list-page .tab-content .ui-btn,
+#chef-cook-detail-page .tab-content .ui-btn {
+	width: 45%;
+	float: right;
+}
+#waiter-detail-table-page .tab-content .ui-btn:first-child,
+#waiter-order-list-page .tab-content .ui-btn:first-child {
+	float: left;
+}
+#chef-cook-detail-page .tab-content .ui-btn{
+	width: 100%;
+}
+/***** NOTEBOOK PAPER CSS *****/
+.notebook-wrapper{
+    color: #777;
+    background: #fff;
+    margin: 33px 0px 0px 0px;
+    position: relative;
+    width: 100%;
+    background-image: -webkit-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -webkit-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -webkit-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: -moz-radial-gradient(#d6d5d6 30%, transparent 20%),
+                      -moz-radial-gradient(#cfcfc3 38%, transparent 24%),
+                      -moz-linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-image: radial-gradient(#d6d5d6 30%, transparent 20%),
+                      radial-gradient(#cfcfc3 38%, transparent 24%),
+                      linear-gradient(top, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,0) 95%,
+                                                   hsla(180,75%,50%,.1) 95%, hsla(180,75%,50%,.1) 100%);
+    background-repeat: repeat-y,  repeat-y, repeat;
+    background-size: 30px 30px, 30px 30px, 30px 30px;
+    padding: 2px 10px;
+}
+.notebook-wrapper a {
+    color: hsla(0,75%,37%,1);
+    text-decoration: none;
+}
+
+.notebook-wrapper td, .notebook-wrapper td div {
+    font: italic 16px 'Loved by the King', cursive;
+    line-height: 32px;
+    margin-bottom: 30px;
+}
+.notebook-wrapper td div {
+	margin: 20px;
+	font-size: 25px;
+	font-weight: bold;
+}
+.notebook-wrapper h2 {
+    font: italic 20px/30px 'Loved by the King', cursive;
+}
+
+.text {
+	background: transparent;
+	border: 0px;
+	outline: 0;
+	border-bottom: dotted skyBlue;
+	width: 200px;
+	font: 20px/30px serif;
+	font-family: 'Loved by the King', cursive;
+	resize: none;
+}
+
+@font-face {
+  font-family: 'Loved by the King';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Loved by the King'), local('LovedbytheKing'), url('fonts/Loved by the King.woff') format('woff');
+}

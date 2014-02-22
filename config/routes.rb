@@ -12,6 +12,27 @@ TakeOrder::Application.routes.draw do
         post "/sign_in", :to => 'sessions#create'
         delete "/sign_out", :to => 'sessions#destroy'
       end
+
+      resources :tables do
+        collection do
+          get 'waiter'
+          get 'chef_cook'
+          get 'shop_manager'
+        end
+      end
+
+      resources :foods do
+        collection do
+          get 'waiter'
+          get 'ordered'
+        end
+      end
+
+      resources :order_details do
+        collection do
+          get 'checkout'
+        end
+      end
     end
   end
 end

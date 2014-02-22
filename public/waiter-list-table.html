@@ -1,0 +1,94 @@
+<div data-role="page" id="waiter-list-table-page" class="relative">
+	<div data-role="header" class="header fixed">
+    	Phục vụ
+    </div><!-- /header -->
+	<div id="waiter-list-table-page-content" data-role="content" class="relative no-padding">
+		<div class="tab-content notebook-wrapper">
+			<div>
+				<table>
+				   <caption>Trạng thái các bàn</caption>
+				   <thead>
+				      <tr>
+				         <th style="width: 50%">Tên/Số bàn </th>
+				         <th style="width: 50%">Tên/Số bàn</th>
+				      </tr>
+				   </thead>
+				   <tbody id="list-table">
+				   </tbody>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$("#waiter-list-table-page").ready(function(){
+		    	 $(".notebook-wrapper").height($(window).height());
+
+				// Get data from server
+		    	// Data is list of table and these table status
+		    	// Check internet connection
+				// if(!App.hasInternet()){
+				// 	App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+				// 	return;
+				// }
+				setTimeout(function(){
+					personID = App.urlParam('person_id');
+					App.loading(true);
+					$.ajax(
+					{
+					    type: "GET",
+					    url: 'http://localhost:3000/api/v1/tables/waiter.json?person_id=' + personID,
+					    dataType: "json",
+					    success: function (data) {
+                console.log(data);
+					    	$("#list-table").empty();
+					    	App.loading(false);
+                var fullRow = true;
+					    	var row = '';
+					    	var classNameCSS = "free";
+					    	$.each(data, function(i, theItem){
+					    		if(theItem.status == 1){
+					    			classNameCSS = "free";
+					    		}else if(theItem.status == 2){
+					    			classNameCSS = "waiting";
+					    		}else if(theItem.status == 3){
+					    			classNameCSS = "busy";
+					    		}
+
+					    		if(fullRow){
+					    			// Begin row
+					    			fullRow = false;
+					    			row += "<tr>";
+					    		}
+
+					    		row += '<td><div onClick="gotoDetail('+ theItem.status + ', '+ theItem.id +', '+ personID +')" id="table_' + (theItem.id) + '" class="'+ classNameCSS +'">' + theItem.name + '</div></td>';
+
+					    		if(i%2 == 0){
+					    			fullRow = true;
+					    		}
+					    		if(fullRow){
+					    			// End row
+					    			row += '</tr>';
+					    			$("#list-table").append(row);
+					    			row = "";
+					    		}
+					    	});
+					    },
+					    error: function (error) {
+					    	App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+					    	App.loading(false);
+					    }
+				   });// End ajax
+				}, 100);
+
+			});
+
+			function gotoDetail(tableStatus, tableID, personID){
+				if(tableStatus == 1){
+					App.gotoPage("waiter-order-list.html?table=" + tableID + "&person_id=" + personID);
+				}else if(tableStatus == 2 || tableStatus == 3){
+					App.gotoPage("waiter-detail-table.html?table=" + tableID + "&status_id=" + tableStatus);
+				}
+			}
+
+		</script>
+    </div><!-- End #waiter-list-table-page-content -->
+</div><!-- End #waiter-list-table-page -->

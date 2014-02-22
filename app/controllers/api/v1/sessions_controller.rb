@@ -13,6 +13,7 @@ class Api::V1::SessionsController < Devise::SessionsController
       sign_in("user", resource)
       render :json => {
         :success => true,
+        :user_id => resource.id,
         :username => resource.username,
         :role_name => resource.roles.first.name
       }

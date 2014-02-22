@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 
   validates :username, presence:true, length:{in: 2..256}
 
+  has_many :order_details
+
   def email_required?
     false
   end

@@ -11,7 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140215073817) do
+ActiveRecord::Schema.define(:version => 20140222100303) do
+
+  create_table "foods", :force => true do |t|
+    t.string   "name"
+    t.integer  "price"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "order_details", :force => true do |t|
+    t.integer  "food_id"
+    t.integer  "quantity"
+    t.integer  "table_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "total_cost"
+    t.boolean  "is_ordered", :default => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -23,6 +41,13 @@ ActiveRecord::Schema.define(:version => 20140215073817) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "tables", :force => true do |t|
+    t.string   "name"
+    t.integer  "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "username"

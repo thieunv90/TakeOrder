@@ -1,0 +1,90 @@
+<div data-role="page" id="login-page" >
+    <div id="login-page-content">
+    	<div id="logo">Take Order</div>
+    	<h1 class="app-name">Take Order</h1>
+    	<p class="login-tip">
+    		Please enter your account and password to login!
+    	</p>
+    	<div id="login-form">
+			<input type="text" id="login-username" placeholder="Username" />
+			<input type="password" id="login-password" placeholder="Password" />
+
+			<!--
+			<fieldset>
+				<p style="text-align: left">What's store you in?</p>
+	    		<select id="list-shop" name="list-shop">
+	    			<option value="Coffe Shop 1">Coffee Shop 1</option>
+	    			<option value="Coffe Shop 2">Coffee Shop 2</option>
+	    			<option value="Coffe Shop 3">Coffee Shop 3</option>
+	    			<option value="Coffe Shop 4">Coffee Shop 4</option>
+	    			<option value="Coffe Shop 5">Coffee Shop 5</option>
+	    			<option value="Coffe Shop 6">Coffee Shop 6</option>
+	    			<option value="Coffe Shop 7">Coffee Shop 7</option>
+	    			<option value="Coffe Shop 8">Coffee Shop 8</option>
+	    			<option value="Coffe Shop 9">Coffee Shop 9</option>
+	    			<option value="Coffe Shop 10">Coffee Shop 10</option>
+	    			<option value="Coffe Shop 11">Coffee Shop 11</option>
+	    			<option value="Coffe Shop 12">Coffee Shop 12</option>
+	    			<option value="Coffe Shop 13">Coffee Shop 13</option>
+	    			<option value="Coffe Shop 14">Coffee Shop 14</option>
+	    			<option value="Coffe Shop 15">Coffee Shop 15</option>
+	    		</select>
+			</fieldset>
+			-->
+			<hr style="margin: 10px 0px;"/>
+			<div class="button" id="login-submit">Login</div>
+    	</div>
+    	<script type="text/javascript">
+    		$("#login-submit").click(function(){
+
+    			// Check condition field
+    			var username = $("#login-username").val().trim();
+    			var password = $("#login-password").val().trim();
+
+
+    			//jQuery.support.cors = true;
+    			if(username != "" && password != "" ){
+    				// Check internet connection
+	    			// if(!App.hasInternet()){
+	    			// 	App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+	    			// 	return;
+	    			// }
+
+    				App.loading(true);
+    				$.ajax(
+	                {
+	                    type: "POST",
+	                    url: 'http://localhost:3000/api/v1/users/sign_in',
+	                    data: {user: {username : username, password : password}},
+	                    dataType: "json",
+	                    success: function (data) {
+	                    	App.loading(false);
+                    		if(data.role_name === "admin"){
+	                    		App.gotoPage("shop-manager.html");
+	                    	}else if(data.role_name === "chef"){
+	                    		App.gotoPage("chef-cook.html?person_id=" + data.user_id);
+	                    	}else if(data.role_name === "employee"){
+	                    		App.gotoPage("waiter-list-table.html?person_id=" + data.user_id);
+	                    	}
+	                    	console.log(data);
+	                    },
+	                    error: function (error) {
+	                    	App.loading(false);
+	                    	switch(error.status){
+	                    		case 401:
+		                    		App.showAlert("Sai tên đăng nhập hoặc mật khẩu", function(){}, "OK");
+		                    		break;
+		                    	default:
+		                    		App.showAlert("Lỗi!", function(){}, "OK");
+		                    		break;
+	                    	}
+	                        console.log(error);
+	                    }
+	               });// End ajax
+    			}else{
+    				App.showAlert("Vui lòng điền đầy đủ thông tin đăng nhập", function(){}, "OK");
+    			}
+    		});
+    	</script>
+    </div><!-- End #login-page-content -->
+</div><!-- End #login-page -->

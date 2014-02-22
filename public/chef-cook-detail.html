@@ -1,0 +1,110 @@
+<div data-role="page" id="chef-cook-detail-page" class="relative" >
+	<div data-role="header" class="header fixed">
+    	Chế biến - Chi tiết
+    </div><!-- /header -->
+	<div id="chef-cook-detail-page-content" data-role="content" class="relative no-padding">
+		<!--<div id="notification" class="info">Info message</div>
+		<button id="prepare-done">Prepare Done!</button>
+		-->
+		<div class="tab-content notebook-wrapper">
+			<div>
+		        <table>
+				   	<caption id="table-id">Chi tiết bàn
+					</caption>
+				   <thead>
+				      <tr>
+				         <th style="width: 60%">Tên món </th>
+				         <th style="width: 15%">Số lượng</th>
+				         <th style="width: 25%"></th>
+				      </tr>
+				   </thead>
+				   <tbody id="list-ordered">
+				   </tbody>
+				</table>
+			</div>
+
+		</div>
+		<script>
+
+			$(document).ready(function(){
+				console.log("ready");
+				// TODO get height belong device height
+				$(".tab-content").height(400);
+				$(".notebook-wrapper").height($(window).height());
+
+				// get data from server for detail table
+				// Data is list of drink dishes
+		    	// Check internet connection
+				if(!App.hasInternet()){
+					App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+					return;
+				}
+
+				tableID = '';
+				setTimeout(function(){
+					tableID = App.urlParam('table');
+					$("#table-id").html("Chi tiết bàn " + tableID);
+
+					App.loading(true);
+					$.ajax(
+					{
+					    type: "GET",
+					    url: 'http://localhost:3000/api/v1/foods/ordered?table_id='
+					    						+ tableID + '&status_id=2',
+					    dataType: "json",
+					    success: function (data) {
+					    	App.loading(false);
+					    	console.log(data);
+					    	var fullRow = true;
+					    	var row = '';
+					    	$.each(data, function(i, theItem){
+					    		// TODO add td for options
+					    		row += '<tr><td>'+ theItem.food_name +'</td><td>'+theItem.quantity+'</td><td><td></tr>';
+				    			$("#list-ordered").append(row);
+				    			row = "";
+					    	});
+					    	$("#list-ordered").append('<tr><td colspan="3"><div onClick="prepareDone('+tableID+')" class="success" style="margin-top: 35px">Xong!</div></td></tr>');
+					    },
+					    error: function (error) {
+					    	App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+					    	App.loading(false);
+					    }
+				   });// End ajax
+				}, 100);
+
+
+			});
+
+			function prepareDone(tableID){
+				App.showConfirm("Bạn đã chuẩn bị xong các món này", function(buttonIndex){
+					if(buttonIndex == 2) {
+						// Check internet connection
+		    			if(!App.hasInternet()){
+		    				App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+		    				return;
+		    			}
+
+	    				App.loading(true);
+	    				$.ajax(
+						{
+						    type: "PUT",
+						    url: 'http://localhost:3000/api/v1/tables/' + tableID,
+						    dataType: "json",
+						    success: function (data) {
+						    	App.loading(false);
+						    	App.showAlert("Cập nhật thành công!", function(){
+						    		navigator.app.backHistory();
+						    	}, "OK");
+						    },
+						    error: function (error) {
+						    	App.showAlert("Không thể cập nhật.", function(){}, "OK");
+						    	App.loading(false);
+						    }
+					   });// End ajax
+					}
+				}); // End confirm
+			}
+
+		</script>
+    </div><!-- End #chef-cook-detail-page-content -->
+</div><!-- End #chef-cook-detail-page -->
