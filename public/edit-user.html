@@ -1,6 +1,7 @@
 <div data-role="page" id="shop-manager-page" class="relative">
   <div data-role="header" class="header fixed">
       Chỉnh sửa thông tin
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
   <div id="shop-manager-page-content" data-role="content" class="relative no-padding">
 
@@ -28,3 +29,8 @@
             </ul>
         </div><!-- End #navbar -->
     </div><!-- End #shop-manager-page-content -->
+    <script type="text/javascript">
+      function logout(){
+        App.gotoPage("login.html");
+      }
+    </script>

@@ -1,6 +1,7 @@
 <div data-role="page" id="chef-cook-detail-page" class="relative" >
 	<div data-role="header" class="header fixed">
     	Chế biến - Chi tiết
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
 	<div id="chef-cook-detail-page-content" data-role="content" class="relative no-padding">
 		<!--<div id="notification" class="info">Info message</div>
@@ -92,7 +93,11 @@
                   App.loading(false);
                 }
              });// End ajax
-			}
+			};
+
+      function logout(){
+        App.gotoPage("login.html");
+      }
 
 		</script>
     </div><!-- End #chef-cook-detail-page-content -->

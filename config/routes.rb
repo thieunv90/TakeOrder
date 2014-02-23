@@ -20,6 +20,9 @@ TakeOrder::Application.routes.draw do
           get 'chef_cook'
           get 'shop_manager'
         end
+        member do
+          post 'update_status'
+        end
       end
 
       resources :foods do

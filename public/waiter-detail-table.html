@@ -1,6 +1,7 @@
 <div data-role="page" id="waiter-detail-table-page" class="relative" >
 	<div data-role="header" class="header fixed">
     	Phục vụ
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
 	<div id="waiter-detail-table-page-content" data-role="content" class="relative no-padding">
 		<div class="tab-content notebook-wrapper">
@@ -14,6 +15,7 @@
 	         		<span id="sum-money" class="sum">Tổng tiền: 0K</span>
 	         		<div style="margin-top: 20px; overflow: hidden">
 		         		<div id="waiter-check-out">Tính tiền</div>
+                <div id="waiter-update-status" class="ui-screen-hidden">Đã phục vụ</div>
 		         		<div id="waiter-add-new">Gọi thêm</div>
 	         		</div>
 	         	</div>
@@ -41,7 +43,9 @@
 					statusID = App.urlParam('status_id');
 					tableID = App.urlParam('table');
 					$("#table-id").html("Chi tiết bàn " + tableID);
-
+          if(statusID == 3){
+            $("#waiter-update-status").removeClass("ui-screen-hidden");
+          }
 					App.loading(true);
 					$.ajax(
 					{
@@ -77,7 +81,7 @@
 			});
 
 			$("#waiter-check-out").click(function(){
-				if(statusID != 3){
+				if(statusID != 4){
 					// not ordered
 					App.showAlert("Đang chờ phục vụ, không thể tính tiền!", function(){}, "OK");
 				}else {
@@ -107,9 +111,33 @@
 					}); // End confirm
 				}
 			});
+      $("#waiter-update-status").click(function(){
+        App.loading(true);
+        $.ajax(
+          {
+              type: "POST",
+              url: 'http://localhost:3000/api/v1/tables/' + tableID + '/update_status',
+              data: {status: 4},
+              dataType: "json",
+              success: function (data) {
+                App.loading(false);
+                App.showAlert("Đã cập nhật trạng thái của bàn!", function(){
+                  $("#waiter-update-status").addClass("ui-screen-hidden");
+                }, "OK");
+              },
+              error: function (error) {
+                App.showAlert("Không thể cập nhật trạng thái của bàn", function(){}, "OK");
+                App.loading(false);
+              }
+           });// End ajax
+      });
 			$("#waiter-add-new").click(function(){
 				App.showAlert("Chức năng chưa được thực thi.", function(){}, "OK");
 			});
+
+      function logout(){
+        App.gotoPage("login.html");
+      }
 		</script>
     </div><!-- End #waiter-detail-table-page-content -->
 </div><!-- End #waiter-detail-table-page -->

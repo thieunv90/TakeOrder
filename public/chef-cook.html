@@ -1,6 +1,7 @@
 <div data-role="page" id="chef-cook-page" class="relative" >
 	<div data-role="header" class="header fixed">
     	Chế biến
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
 	<div id="chef-cook-page-content" data-role="content" class="relative no-padding">
 		<div class="tab-content notebook-wrapper">
@@ -81,9 +82,13 @@
 				   });// End ajax
 				}, 100);
 		    });
-		    function gotoDetail(tableID){
+		  function gotoDetail(tableID){
 	   			App.gotoPage('chef-cook-detail.html?table=' + tableID);
-		   }
+		   };
+
+       function logout(){
+        App.gotoPage("login.html");
+      }
 		</script>
     </div><!-- End #chef-cook-page-content -->
 </div><!-- End #chef-cook-page -->

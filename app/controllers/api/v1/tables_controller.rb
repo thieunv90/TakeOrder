@@ -16,4 +16,14 @@ class Api::V1::TablesController < Api::V1::ApiController
     end
     render :json => {success: check_save}
   end
+  def update_status
+    table = Table.find(params[:id])
+    table.status = params[:status]
+    if table.save
+      check_save = true
+    else
+      check_save = false
+    end
+    render :json => {success: check_save}
+  end
 end

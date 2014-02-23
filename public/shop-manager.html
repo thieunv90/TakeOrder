@@ -1,6 +1,7 @@
 <div data-role="page" id="shop-manager-page" class="relative">
 	<div data-role="header" class="header fixed">
     	Quản lý
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
 	<div id="shop-manager-page-content" data-role="content" class="relative no-padding">
 
@@ -42,12 +43,12 @@
                 	<option value="employee">Phục vụ</option>
                 	<option value="chef">Chế biến</option>
                 </select>
-                <div class="one-two left">
-                	<button type="reset">Làm lại</button>
-            	</div>
-            	<div class="one-two right">
-                	<button type="button" id="add-new-people">Thêm</button>
+                  <div class="one-two left m-b-xlarge">
+                    <button type="reset">Làm lại</button>
                 </div>
+                <div class="one-two right m-b-xlarge">
+                    <button type="button" id="add-new-people">Thêm</button>
+                  </div>
             </div>
         </div><!-- End #tab-content -->
         <div data-role="navbar" id="navbar" style="z-index: 999;">
@@ -102,7 +103,6 @@
 				    }
 			   });// End ajax
 			}, 100);
-      setTimeout(function(){
         $.ajax(
         {
             type: "GET",
@@ -121,7 +121,6 @@
             }
          });// End ajax
       });
-      }, 200);
 
       $("#add-new-people").click(function(){
         // Check condition field
@@ -177,6 +176,10 @@
 
       function editUser(id){
         App.gotoPage('edit-user.html?user_id=' + id);
+      };
+
+      function logout(){
+        App.gotoPage("login.html");
       }
 	</script>
 

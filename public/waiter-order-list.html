@@ -1,6 +1,7 @@
 <div data-role="page" id="waiter-order-list-page" class="relative">
 	<div data-role="header" class="header fixed">
     	Phục vụ - Gọi món
+      <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
 	<div id="waiter-order-list-page-content" data-role="content" class="relative no-padding">
 		<div class="tab-content notebook-wrapper">
@@ -143,6 +144,10 @@
   				App.showAlert("Vui lòng chọn món và số lượng", function(){}, "OK");
   			}
 			}
+
+      function logout(){
+        App.gotoPage("login.html");
+      }
 		</script>
     </div><!-- End #wiater-order-list-page-content -->
 </div><!-- End #wiater-order-list-page -->

@@ -88,7 +88,7 @@ a{
 	padding: 10px 10px 0 10px;
 }
 /***** INFOMATION MESSAGE *****/
-.info, .success, .busy, .free, #waiter-add-new, #waiter-check-out {
+.info, .success, .busy, .free, #waiter-add-new, #waiter-check-out, #waiter-update-status {
   border: 1px solid;
   margin: 10px 0px;
   padding:15px 10px 15px 50px;
@@ -107,7 +107,7 @@ a{
   background-image:url('images/success-icon.png');
 }
 
-.free, .busy, .waiting, .detail, .checkout{
+.free, .busy, .waiting, .waiting2, .detail, .checkout{
 	margin:20px 50px;
 	padding:10px;
 	-webkit-border-radius: 3px;
@@ -121,19 +121,25 @@ a{
 	border:1px solid #4f8746;
 	color:#4f8746;
 	background:#d4ffcd url('images/success.png') no-repeat;
-	background-position: center center;
+	background-position: center right;
+}
+.waiting2{
+  border:1px solid #9638f1;
+  color:#9638f1;
+  background:#e5cefc url('images/waiting2.png') no-repeat;
+  background-position: center right;
 }
 .busy{
-	border:1px solid #9638f1;
-	color:#9638f1;
-	background:#e5cefc url('images/secure.png') no-repeat;
-	background-position: center center;
+	border:1px solid #FF0009;
+	color:#FF0009;
+	background:#F9D1D2 url('images/busy.png') no-repeat;
+	background-position: center right;
 }
 .waiting {
 	border:1px solid #9d9c49;
 	color:#9d9c49;
 	background:#fdfdcb url('images/waiting.png') no-repeat;
-	background-position: center center;
+	background-position: center right;
 }
 .detail {
 	border:1px solid #0e7fad;
@@ -193,6 +199,13 @@ div.name {
 	margin-left: 5%;
 	text-align: center;
 	padding: 5px;
+}
+#waiter-update-status {
+  width: auto;
+  float: left;
+  margin-left: 3%;
+  text-align: center;
+  padding: 5px 30px;
 }
 #waiter-add-new {
 	float: right;
@@ -364,12 +377,16 @@ th {
 .m-b-mini{margin-bottom: 5px;}
 .m-b-small{margin-bottom: 10px;}
 .m-b-large{margin-bottom: 20px;}
+.m-b-xlarge{margin-bottom: 30px;}
 .m-b-n{margin-bottom: -15px}
 .m-b-n-mini{margin-bottom: -5px}
 .m-b-n-small{margin-bottom: -10px}
 .m-b-n-large{margin-bottom: -20px}
 
-
+.right-side{
+  float: right;
+  padding-right: 10px;
+}
 @font-face {
   font-family: 'Loved by the King';
   font-style: normal;
