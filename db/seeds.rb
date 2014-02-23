@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 admin = User.find_by_username("admin")
 if !admin
-  admin = User.new(username: "admin", password: "12345678", password_confirmation: "12345678")
+  admin = User.new(username: "admin", password: "123", password_confirmation: "123")
   admin.save
 end
 admin.add_role :admin
@@ -17,7 +17,7 @@ admin.save
 for i in 1..5 do
   user = User.find_by_username("employee#{i}")
   if !user
-    user = User.new(username: "employee#{i}", password: "12345678", password_confirmation: "12345678")
+    user = User.new(username: "employee#{i}", password: "123", password_confirmation: "123")
     user.save
   end
   user.add_role :employee
@@ -27,7 +27,7 @@ end
 for j in 1..5 do
   chef = User.find_by_username("chef#{j}")
   if !chef
-    chef = User.new(username: "chef#{j}", password: "12345678", password_confirmation: "12345678")
+    chef = User.new(username: "chef#{j}", password: "123", password_confirmation: "123")
     chef.save
   end
   chef.add_role :chef
