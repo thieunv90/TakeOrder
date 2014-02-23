@@ -81,6 +81,57 @@
 					    }
 				   });// End ajax
 				}, 100);
+
+        page_reload = setInterval(function(){
+          personID = App.urlParam('person_id');
+          App.loading(true);
+          $.ajax(
+          {
+              type: "GET",
+              url: 'http://localhost:3000/api/v1/tables/chef_cook?person_id='+personID,
+              dataType: "json",
+              success: function (data) {
+                $("#list-table").empty();
+                App.loading(false);
+                var fullRow = true;
+                var row = '';
+
+                sumList = data.length;
+                count = 0;
+                $.each(data, function(i, theItem){
+                  if(fullRow){
+                    // Begin row
+                    fullRow = false;
+                    row += "<tr>";
+                  }
+
+                  row += '<td><div onClick=gotoDetail('+ theItem.id +'); id="table_' + theItem.id + '" class="waiting">' + theItem.name + '</div></td>';
+
+                  if(i%2 == 1){
+                    fullRow = true;
+                  }
+                  if(fullRow){
+                    // End row
+                    row += '</tr>';
+                    $("#list-table").append(row);
+                    row = "";
+                    count++;
+                  }
+                });
+                if(count < sumList){
+                  row ="";
+                  row += '<tr><td><div onClick=gotoDetail('+ data[count*2].id +'); id="table_' + data[count*2].id + '" class="waiting">' + data[count*2].name + '</div></td><td></td></tr>';
+                  $("#list-table").append(row);
+                }
+
+
+              },
+              error: function (error) {
+                App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+                App.loading(false);
+              }
+           });// End ajax
+        }, 3000);
 		    });
 		  function gotoDetail(tableID){
 	   			App.gotoPage('chef-cook-detail.html?table=' + tableID);

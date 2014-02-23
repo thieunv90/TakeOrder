@@ -1,7 +1,8 @@
 class Api::V1::FoodsController < Api::V1::ApiController
   respond_to :json
   def waiter
-    render :json => Food.all.to_json
+    table = Table.find(params[:table_id])
+    render :json => {table_name: table.name, foods: Food.all}
   end
   def ordered
     table = Table.find(params[:table_id])
@@ -15,6 +16,6 @@ class Api::V1::FoodsController < Api::V1::ApiController
       tmp_list_foods_ordered << tmp
     end
     list_foods_ordered = tmp_list_foods_ordered
-    render :json => list_foods_ordered
+    render :json => {table_name: table.name, foods_ordered: list_foods_ordered}
   end
 end

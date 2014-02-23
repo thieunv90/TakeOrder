@@ -15,9 +15,9 @@ admin.save
 
 # Create Employee
 for i in 1..5 do
-  user = User.find_by_username("employee#{i}")
+  user = User.find_by_username("nv#{i}")
   if !user
-    user = User.new(username: "employee#{i}", password: "123", password_confirmation: "123")
+    user = User.new(username: "nv#{i}", password: "123", password_confirmation: "123")
     user.save
   end
   user.add_role :employee
@@ -35,15 +35,15 @@ end
 
 # Create Table
 for m in 1..10 do
-  table = Table.find_by_name("Table #{m}")
+  table = Table.find_by_name("B#{m}")
   if !table
-    table = Table.new(name: "Table #{m}", status: 1)
+    table = Table.new(name: "B#{m}", status: 1)
     table.save
   end
 end
 
 # Create Food
-for n in 1..5 do
+for n in 1..10 do
   food = Food.find_by_name("Food #{n}")
   if !food
     food = Food.new(name: "Food #{n}", price: Random.rand(50000))

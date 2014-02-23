@@ -23,6 +23,7 @@
 		</div>
 		<script type="text/javascript">
 			$('#waiter-detail-table-page').ready(function(){
+        clearInterval(waiter_listtable_reload);
 		    	 $(".notebook-wrapper").height($(window).height());
 
 				// get data from server for detail table

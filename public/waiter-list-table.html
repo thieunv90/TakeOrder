@@ -71,7 +71,47 @@
 					    }
 				   });// End ajax
 				}, 100);
+        waiter_listtable_reload = setInterval(function(){
+          personID = App.urlParam('person_id');
+          App.loading(true);
+          $.ajax(
+          {
+              type: "GET",
+              url: 'http://localhost:3000/api/v1/tables/waiter.json?person_id=' + personID,
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                $("#list-table").empty();
+                App.loading(false);
+                var row = '';
+                var classNameCSS = "free";
+                $.each(data, function(i, theItem){
+                  row += "<tr>";
+                  $.each(theItem, function(j, childItem){
+                    if(childItem.status == 1){
+                      classNameCSS = "free";
+                    }else if(childItem.status == 2){
+                      classNameCSS = "waiting";
+                    }else if(childItem.status == 3){
+                      classNameCSS = "waiting2";
+                    }else if(childItem.status == 4){
+                      classNameCSS = "busy";
+                    }
 
+                    row += '<td><div onClick="gotoDetail('+ childItem.status + ', '+ childItem.id +', '+ personID +')" id="table_' + (childItem.id) + '" class="'+ classNameCSS +'">' + childItem.name + '</div></td>';
+                  });
+
+                  row += '</tr>';
+                  $("#list-table").append(row);
+                  row = "";
+                });
+              },
+              error: function (error) {
+                App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+                App.loading(false);
+              }
+           });// End ajax
+        }, 3000);
 			});
 
 			function gotoDetail(tableStatus, tableID, personID){
