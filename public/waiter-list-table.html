@@ -42,37 +42,27 @@
                 console.log(data);
 					    	$("#list-table").empty();
 					    	App.loading(false);
-                var fullRow = true;
 					    	var row = '';
 					    	var classNameCSS = "free";
 					    	$.each(data, function(i, theItem){
-					    		if(theItem.status == 1){
-					    			classNameCSS = "free";
-					    		}else if(theItem.status == 2){
-					    			classNameCSS = "waiting";
-					    		}else if(theItem.status == 3){
-					    			classNameCSS = "waiting2";
-					    		}else if(theItem.status == 4){
-                    classNameCSS = "busy";
-                  }
+                  row += "<tr>";
+                  $.each(theItem, function(j, childItem){
+                    if(childItem.status == 1){
+                      classNameCSS = "free";
+                    }else if(childItem.status == 2){
+                      classNameCSS = "waiting";
+                    }else if(childItem.status == 3){
+                      classNameCSS = "waiting2";
+                    }else if(childItem.status == 4){
+                      classNameCSS = "busy";
+                    }
 
-					    		if(fullRow){
-					    			// Begin row
-					    			fullRow = false;
-					    			row += "<tr>";
-					    		}
+                    row += '<td><div onClick="gotoDetail('+ childItem.status + ', '+ childItem.id +', '+ personID +')" id="table_' + (childItem.id) + '" class="'+ classNameCSS +'">' + childItem.name + '</div></td>';
+                  });
 
-					    		row += '<td><div onClick="gotoDetail('+ theItem.status + ', '+ theItem.id +', '+ personID +')" id="table_' + (theItem.id) + '" class="'+ classNameCSS +'">' + theItem.name + '</div></td>';
-
-					    		if(i%2 == 0){
-					    			fullRow = true;
-					    		}
-					    		if(fullRow){
-					    			// End row
-					    			row += '</tr>';
-					    			$("#list-table").append(row);
-					    			row = "";
-					    		}
+                  row += '</tr>';
+                  $("#list-table").append(row);
+                  row = "";
 					    	});
 					    },
 					    error: function (error) {

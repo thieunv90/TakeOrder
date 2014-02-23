@@ -66,7 +66,7 @@ App.showSettingMenu = function () {
 };
 
 App.exit = function() {
-	App.showConfirm("Do you want to logout and exit application?", function(buttonIndex) {
+	App.showConfirm("Bạn có muốn thoát khỏi ứng dụng này?", function(buttonIndex) {
 		if(buttonIndex == 2) {
 			App.logout();
 		}
@@ -189,14 +189,14 @@ App.loading = function(show){
 			text: 'Loading',
 			textVisible: true,
 			theme: 'a',
-			html: "<div id='loading-indicator'>Please wait...</div>"
+			html: "<div id='loading-indicator'>Vui lòng đợi trong giây lát...</div>"
 		});
 		if(App.loadingTimer != null){
 			clearTimeout(App.loadingTimer);
 		}
 		App.loadingTimer = setTimeout(function(){
 			if($('#loading-indicator').is(':visible')){
-				$('#loading-indicator').html("Please wait...<br/> The app is still loading...");
+				$('#loading-indicator').html("Vui lòng đợi trong giây lát...");
 			}
 		}, App.loadingTimerInterval);
 	}

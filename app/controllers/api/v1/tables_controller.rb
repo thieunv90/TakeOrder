@@ -1,7 +1,7 @@
 class Api::V1::TablesController < Api::V1::ApiController
   respond_to :json
   def waiter
-    render :json => Table.order(:id).to_json
+    render :json => Table.order(:id).each_slice(2).to_json
   end
   def chef_cook
     render :json => Table.where(status: 2).order(:id).to_json

@@ -20,7 +20,7 @@
 				   		<!-- Will append -->
 				   </tbody>
 				</table>
-        <div style="text-align: center; margin-top: 15px;">Tổng cộng: <span id="total-money-today"></span></div>
+        <div class="total-cost-today" style="text-align: center; margin-top: 15px;">Tổng cộng: <span id="total-money-today"></span></div>
             </div>
             <div class="tab3 ui-screen-hidden">
                 <h2 class="bold center">Danh sách nhân viên</h2>
@@ -92,9 +92,11 @@
                 $.each(data.orders, function(i, theItem){
                   $("#list-food").append('<tr><td>' + theItem.name + '</td><td>'+theItem.quantity+'</td><td>'+theItem.total_cost+'K</td></tr>');
                 });
+                $(".total-cost-today").removeClass('ui-screen-hidden');
                 $("#total-money-today").html(data.sum_money + 'K');
               }else{
                 $("#list-food").append('<tr><td colspan="3">Chưa có order nào trong ngày hôm nay</td></tr>');
+                $(".total-cost-today").addClass('ui-screen-hidden');
               }
 				    },
 				    error: function (error) {

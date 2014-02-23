@@ -202,10 +202,11 @@ div.name {
 }
 #waiter-update-status {
   width: auto;
-  float: left;
-  margin-left: 3%;
+  margin-left: 5%;
+  margin-right: 5%;
   text-align: center;
-  padding: 5px 30px;
+  padding: 5px;
+  margin-top: 45px;
 }
 #waiter-add-new {
 	float: right;
