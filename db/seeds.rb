@@ -34,7 +34,7 @@ for j in 1..5 do
 end
 
 # Create Table
-for m in 1..5 do
+for m in 1..10 do
   table = Table.find_by_name("Table #{m}")
   if !table
     table = Table.new(name: "Table #{m}", status: 1)
