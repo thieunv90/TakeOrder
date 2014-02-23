@@ -58,7 +58,7 @@ a{
 .button {
 	text-align: center;
 	padding: 10px;
-	background: #0e7fad;
+	background: #B030D8;
 	color: #fff;
 }
 
@@ -327,6 +327,48 @@ th {
 	font-family: 'Loved by the King', cursive;
 	resize: none;
 }
+
+.m-l{margin-left: 15px}
+.m-l-none{margin-left: 0}
+.m-l-mini{margin-left: 5px;}
+.m-l-small{margin-left: 10px;}
+.m-l-large{margin-left: 20px;}
+.m-l-n{margin-left: -15px}
+.m-l-n-mini{margin-left: -5px}
+.m-l-n-small{margin-left: -10px}
+.m-l-n-large{margin-left: -20px}
+
+.m-t{margin-top: 15px}
+.m-t-none{margin-top:0}
+.m-t-mini{margin-top: 5px;}
+.m-t-small{margin-top: 10px;}
+.m-t-large{margin-top: 20px;}
+.m-t-n{margin-top: -15px}
+.m-t-n-xmini{margin-top: -1px}
+.m-t-n-mini{margin-top: -5px}
+.m-t-n-small{margin-top: -10px}
+.m-t-n-large{margin-top: -20px}
+
+.m-r{margin-right: 15px}
+.m-r-none{margin-right: 0}
+.m-r-mini{margin-right: 5px}
+.m-r-small{margin-right: 10px}
+.m-r-large{margin-right: 20px}
+.m-r-n{margin-right: -15px}
+.m-r-n-mini{margin-right: -5px}
+.m-r-n-small{margin-right: -10px}
+.m-r-n-large{margin-right: -20px}
+
+.m-b{margin-bottom: 15px;}
+.m-b-none{margin-bottom: 0}
+.m-b-mini{margin-bottom: 5px;}
+.m-b-small{margin-bottom: 10px;}
+.m-b-large{margin-bottom: 20px;}
+.m-b-n{margin-bottom: -15px}
+.m-b-n-mini{margin-bottom: -5px}
+.m-b-n-small{margin-bottom: -10px}
+.m-b-n-large{margin-bottom: -20px}
+
 
 @font-face {
   font-family: 'Loved by the King';

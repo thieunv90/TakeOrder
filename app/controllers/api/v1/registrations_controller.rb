@@ -3,7 +3,17 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   def create
     user = User.new(params[:user])
     if user.save
-      render :json => user.as_json(:auth_token => user.authentication_token, :username =>user.username), :status => 201
+      if params[:position] == "employee"
+        user.add_role :employee
+      elsif params[:position] == "chef"
+        user.add_role :chef
+      end
+      render :json => {
+        :success => true,
+        :user_id => user.id,
+        :username => user.username,
+        :role_name => user.roles.first.name
+      }
       return
     else
       warden.custom_failure!

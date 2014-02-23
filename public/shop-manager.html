@@ -2,50 +2,62 @@
 	<div data-role="header" class="header fixed">
     	Quản lý
     </div><!-- /header -->
-	<div id="shop-manager-page-content" data-role="content" class="relative no-padding">   
-        
+	<div id="shop-manager-page-content" data-role="content" class="relative no-padding">
+
         <div class="tab-content notebook-wrapper">
             <div class="tab1">
                 <table>
-				   <caption>Danh sách bàn</caption>
+				   <caption>Tổng thu trong ngày</caption>
 				   <thead>
 				      <tr>
-				         <th style="width: 30%">Tên/Số</th>
-				         <th style="width: 20%">Tổng</th>
-				         <th style="width: 50%">Trạng thái</th>
+				         <th style="width: 30%">Tên món</th>
+				         <th style="width: 20%">Số lượng</th>
+				         <th style="width: 50%">Thành tiền</th>
 				      </tr>
 				   </thead>
-				   <tbody id="list-table">
-				   		<!-- Will append --> 
+				   <tbody id="list-food">
+				   		<!-- Will append -->
 				   </tbody>
 				</table>
+        <div style="text-align: center; margin-top: 15px;">Tổng cộng: <span id="total-money-today"></span></div>
             </div>
             <div class="tab3 ui-screen-hidden">
-                <h2 class="bold center">Nhân viên mới</h2>
-                <input type="text" id="employee-name" placeholder="Mã nhân viên" />
-                <input type="password" id="employee-password" placeholder="Mật khẩu" />
+                <h2 class="bold center">Danh sách nhân viên</h2>
+                <table>
+                  <thead>
+                    <tr>
+                       <th style="width: 40%">Tên nhân viên</th>
+                       <th style="width: 30%">Vị trí</th>
+                       <th style="width: 20%">Thao tác</th>
+                    </tr>
+                 </thead>
+                 <tbody id="list-users">
+                 </tbody>
+                </table>
+                <h2 class="bold center m-t-large">Thêm nhân viên mới</h2>
+                <input type="text" id="employee_name" placeholder="Mã nhân viên" />
+                <input type="password" id="employee_password" placeholder="Mật khẩu" />
                 <p>Vị trí:</p>
-                <select id="employee-position" name="employee-position">
-                	<option value="waiter">Phục vụ</option>
-                	<option value="chef cook">Chế biến</option>
-                	<option value="sub-manager">Quản lý viên</option>
+                <select id="employee_position" name="employee_position">
+                	<option value="employee">Phục vụ</option>
+                	<option value="chef">Chế biến</option>
                 </select>
                 <div class="one-two left">
                 	<button type="reset">Làm lại</button>
             	</div>
             	<div class="one-two right">
-                	<button type="button">Thêm</button>
+                	<button type="button" id="add-new-people">Thêm</button>
                 </div>
             </div>
         </div><!-- End #tab-content -->
-        <div data-role="navbar" id="navbar">
+        <div data-role="navbar" id="navbar" style="z-index: 999;">
             <ul>
                 <li><a href="#" class="ui-btn-active" data-tab-class="tab1">Quán hôm nay</a></li>
-                <li><a href="#" data-tab-class="tab3">Thêm mới</a></li>
+                <li><a href="#" data-tab-class="tab3">Quản lý nhân viên</a></li>
             </ul>
         </div><!-- End #navbar -->
     </div><!-- End #shop-manager-page-content -->
-    
+
     <script>
     	var prevSelection = "tab1";
 	    $("#navbar ul li").click(function(){
@@ -56,7 +68,7 @@
 	    });
 	    $('#shop-manager-page').ready(function(){
 	    	$(".notebook-wrapper").height($(window).height());
-	    	 
+
 	    	// Get data from server
 	    	// Data is list of table and these table status
 	    	// Check internet connection
@@ -65,29 +77,24 @@
 				return;
 			}
 			setTimeout(function(){
-				personID = App.urlParam('person_id');
-				console.log(personID);
 				App.loading(true);
 				$.ajax(
 				{
 				    type: "GET",
-				    url: 'http://coffee.tuisolutions.com.vn/index.php/api/listtable/shopmanager?person_id='+personID,
-				    dataType: "jsonp",
+				    url: 'http://localhost:3000/api/v1/order_details',
+				    dataType: "json",
 				    success: function (data) {
+              console.log(data);
+              console.log(data.sum_money);
 				    	App.loading(false);
-				    	console.log(data);
-				    	$.each(data, function(i, theItem){
-				    		var status = "Đang trống";
-				    		sumMoney = 0;
-				    		if(theItem.status == 2){
-				    			status = "Đã gọi món";
-				    			sumMoney = theItem.sumMoney;
-				    		}else if(theItem.status == 3){
-				    			status = "Đã phục vụ";
-				    			sumMoney = theItem.sumMoney;
-				    		}
-				    		$("#list-table").append('<tr><td>' + theItem.name + '</td><td>'+sumMoney+'K</td><td>'+status+'</td></tr>');
-				    	});
+              if(data.orders.length > 0){
+                $.each(data.orders, function(i, theItem){
+                  $("#list-food").append('<tr><td>' + theItem.name + '</td><td>'+theItem.quantity+'</td><td>'+theItem.total_cost+'K</td></tr>');
+                });
+                $("#total-money-today").html(data.sum_money + 'K');
+              }else{
+                $("#list-food").append('<tr><td colspan="3">Chưa có order nào trong ngày hôm nay</td></tr>');
+              }
 				    },
 				    error: function (error) {
 				    	App.showAlert("Không thể load dữ liệu", function(){}, "OK");
@@ -95,7 +102,82 @@
 				    }
 			   });// End ajax
 			}, 100);
-	    });
+      setTimeout(function(){
+        $.ajax(
+        {
+            type: "GET",
+            url: 'http://localhost:3000/api/v1/users',
+            dataType: "json",
+            success: function (data) {
+              App.loading(false);
+              $.each(data, function(i, theItem){
+                $("#list-users").append('<tr><td>' + theItem.username + '</td><td>'+getPosition(theItem.role_name)+'</td><td><span onclick="editUser('+ theItem.id +')">Sửa</span> | <span onclick="destroyUser('+ theItem.id +')">Xóa</span></td></tr>');
+              });
+              $("#total-money-today").html(data.sum_money + 'K');
+            },
+            error: function (error) {
+              App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+              App.loading(false);
+            }
+         });// End ajax
+      });
+      }, 200);
+
+      $("#add-new-people").click(function(){
+        // Check condition field
+        var username = $("#employee_name").val().trim();
+        var password = $("#employee_password").val().trim();
+        var position = $("#employee_position").val();
+
+
+        //jQuery.support.cors = true;
+        if(username != "" && password != "" ){
+          // Check internet connection
+          // if(!App.hasInternet()){
+          //  App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+          //  return;
+          // }
+
+          App.loading(true);
+          $.ajax(
+                {
+                    type: "POST",
+                    url: 'http://localhost:3000/api/v1/users',
+                    data: {user: {username : username, password : password}, position: position},
+                    dataType: "json",
+                    success: function (data) {
+                      App.loading(false);
+                      App.showAlert("Thêm mới thành công!", function(){}, "OK");
+                      $("#list-users").append('<tr><td>' + data.username + '</td><td>'+getPosition(data.role_name)+'</td><td><span onclick="editUser('+ data.id +')">Sửa</span> | <span onclick="destroyUser('+ data.id +')">Xóa</span></td></tr>');
+                      console.log(data);
+
+                    },
+                    error: function (error) {
+                      App.loading(false);
+                      App.showAlert("Lỗi!", function(){}, "OK");
+                      console.log(error);
+                    }
+               });// End ajax
+        }else{
+          App.showAlert("Vui lòng điền đầy đủ thông tin", function(){}, "OK");
+        }
+      });
+
+      function getPosition(role_name){
+        if(role_name == 'admin'){
+          return 'Quản lý';
+        }
+        if(role_name == 'employee'){
+          return 'Phục vụ';
+        }
+        if(role_name == 'chef'){
+          return 'Đầu bếp';
+        }
+      }
+
+      function editUser(id){
+        App.gotoPage('edit-user.html?user_id=' + id);
+      }
 	</script>
-	
+
 </div><!-- End #shop-manager-page -->

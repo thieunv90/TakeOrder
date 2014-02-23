@@ -1,0 +1,30 @@
+<div data-role="page" id="shop-manager-page" class="relative">
+  <div data-role="header" class="header fixed">
+      Chỉnh sửa thông tin
+    </div><!-- /header -->
+  <div id="shop-manager-page-content" data-role="content" class="relative no-padding">
+
+        <div class="tab-content notebook-wrapper">
+          <h2 class="bold center m-t-large">Thay đổi thông tin</h2>
+                <input type="text" id="employee_name" placeholder="Mã nhân viên" />
+                <input type="password" id="employee_password" placeholder="Mật khẩu" />
+                <p>Vị trí:</p>
+                <select id="employee_position" name="employee_position">
+                  <option value="employee">Phục vụ</option>
+                  <option value="chef">Chế biến</option>
+                </select>
+                <div class="one-two left">
+                  <button type="reset">Làm lại</button>
+              </div>
+              <div class="one-two right">
+                  <button type="button" id="add-new-people">Thêm</button>
+                </div>
+        </div>
+        </div><!-- End #tab-content -->
+        <div data-role="navbar" id="navbar" style="z-index: 999;">
+            <ul>
+                <li><a href="#">Quay lại</a></li>
+                <li><a href="#" class="ui-btn-active">Cập nhật</a></li>
+            </ul>
+        </div><!-- End #navbar -->
+    </div><!-- End #shop-manager-page-content -->

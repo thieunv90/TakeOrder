@@ -76,33 +76,22 @@
 			});
 
 			function prepareDone(tableID){
-				App.showConfirm("Bạn đã chuẩn bị xong các món này", function(buttonIndex){
-					if(buttonIndex == 2) {
-						// Check internet connection
-		    			if(!App.hasInternet()){
-		    				App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
-		    				return;
-		    			}
-
-	    				App.loading(true);
-	    				$.ajax(
-						{
-						    type: "PUT",
-						    url: 'http://localhost:3000/api/v1/tables/' + tableID,
-						    dataType: "json",
-						    success: function (data) {
-						    	App.loading(false);
-						    	App.showAlert("Cập nhật thành công!", function(){
-						    		navigator.app.backHistory();
-						    	}, "OK");
-						    },
-						    error: function (error) {
-						    	App.showAlert("Không thể cập nhật.", function(){}, "OK");
-						    	App.loading(false);
-						    }
-					   });// End ajax
-					}
-				}); // End confirm
+				$.ajax(
+            {
+                type: "PUT",
+                url: 'http://localhost:3000/api/v1/tables/' + tableID,
+                dataType: "json",
+                success: function (data) {
+                  App.loading(false);
+                  App.showAlert("Cập nhật thành công!", function(){
+                    navigator.app.backHistory();
+                  }, "OK");
+                },
+                error: function (error) {
+                  App.showAlert("Không thể cập nhật.", function(){}, "OK");
+                  App.loading(false);
+                }
+             });// End ajax
 			}
 
 		</script>

@@ -11,6 +11,7 @@ TakeOrder::Application.routes.draw do
       devise_scope :user do
         post "/sign_in", :to => 'sessions#create'
         delete "/sign_out", :to => 'sessions#destroy'
+        post "/sign_up", :to => 'registrations#create'
       end
 
       resources :tables do
@@ -33,6 +34,8 @@ TakeOrder::Application.routes.draw do
           get 'checkout'
         end
       end
+
+      resources :users
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222100303) do
+ActiveRecord::Schema.define(:version => 20140222164656) do
 
   create_table "foods", :force => true do |t|
     t.string   "name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20140222100303) do
     t.datetime "updated_at",                    :null => false
     t.integer  "total_cost"
     t.boolean  "is_ordered", :default => false
+    t.string   "date"
   end
 
   create_table "roles", :force => true do |t|
