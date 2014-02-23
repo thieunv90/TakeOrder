@@ -58,7 +58,7 @@ a{
 .button {
 	text-align: center;
 	padding: 10px;
-	background: #B030D8;
+	background: #0e7fad;
 	color: #fff;
 }
 
@@ -72,7 +72,7 @@ a{
 }
 #splash-page-content #logo, #login-page-content #logo{
 	background: url("images/logo.png") no-repeat scroll center top transparent;
-    height: 135px;
+    height: 110px;
     text-indent: -9999999px;
     width: 100%;;
 }
