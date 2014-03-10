@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     tmp_list_users = []
     list_users.each do |user|
       tmp = user.attributes
-      tmp[:role_name] = user.roles.first.name
+      tmp[:role_name] = user.roles ? user.roles.first.name : 'employee'
       tmp_list_users << tmp
     end
     render :json => tmp_list_users.to_json
