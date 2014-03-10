@@ -1,5 +1,17 @@
 class Api::V1::FoodsController < Api::V1::ApiController
   respond_to :json
+  def index
+    list_foods = Food.order(:name)
+    render :json => list_foods.to_json
+  end
+  def create
+    food = Food.new(params[:food])
+    if food.save
+      render :json => {food: food, success: true}
+    else
+      render :json => {success: false}
+    end
+  end
   def waiter
     table = Table.find(params[:table_id])
     render :json => {table_name: table.name, foods: Food.all}

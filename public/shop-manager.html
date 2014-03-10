@@ -28,12 +28,12 @@
                   <thead>
                     <tr>
                        <th style="width: 40%">Tên nhân viên</th>
-                       <th style="width: 30%">Vị trí</th>
-                       <th style="width: 20%">Thao tác</th>
+                       <th style="width: 50%">Vị trí</th>
+                       <!-- <th style="width: 20%">Thao tác</th> -->
                     </tr>
-                 </thead>
-                 <tbody id="list-users">
-                 </tbody>
+                  </thead>
+                  <tbody id="list-users">
+                  </tbody>
                 </table>
                 <h2 class="bold center m-t-large">Thêm nhân viên mới</h2>
                 <input type="text" id="employee_name" placeholder="Mã nhân viên" />
@@ -52,11 +52,61 @@
                   </div>
                 </div>
             </div>
+
+            <div class="tab4 ui-screen-hidden">
+              <h2 class="bold center">Danh sách món ăn</h2>
+                <table>
+                  <thead>
+                    <tr>
+                       <th style="width: 40%">Tên món</th>
+                       <th style="width: 50%">Đơn giá</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-list-foods">
+                  </tbody>
+                </table>
+                <h2 class="bold center m-t-large">Thêm món mới</h2>
+                <input type="text" id="food_name" placeholder="Tên món ăn" />
+                <input type="text" id="food_price" placeholder="Đơn giá" />
+                <div style="height: 80px;">
+                  <div class="one-two left">
+                    <button type="reset">Làm lại</button>
+                  </div>
+                  <div class="one-two right">
+                    <button type="button" id="add-new-food">Thêm</button>
+                  </div>
+                </div>
+            </div>
+
+            <div class="tab5 ui-screen-hidden">
+              <h2 class="bold center">Danh sách bàn ăn</h2>
+                <table>
+                  <thead>
+                    <tr>
+                       <th style="width: 90%">Tên bàn</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-list-tables">
+                  </tbody>
+                </table>
+                <h2 class="bold center m-t-large">Thêm bàn mới</h2>
+                <input type="text" id="table_name" placeholder="Tên bàn" />
+                <div style="height: 80px;">
+                  <div class="one-two left">
+                    <button type="reset">Làm lại</button>
+                  </div>
+                  <div class="one-two right">
+                    <button type="button" id="add-new-table">Thêm</button>
+                  </div>
+                </div>
+            </div>
         </div><!-- End #tab-content -->
         <div data-role="navbar" id="navbar" style="z-index: 999;">
             <ul>
                 <li><a href="#" class="ui-btn-active" data-tab-class="tab1">Quán hôm nay</a></li>
                 <li><a href="#" data-tab-class="tab3">Quản lý nhân viên</a></li>
+                <li><a href="#" data-tab-class="tab4">Quản lý món ăn</a></li>
+                <li><a href="#" data-tab-class="tab5">Quản lý bàn ăn</a></li>
             </ul>
         </div><!-- End #navbar -->
     </div><!-- End #shop-manager-page-content -->
@@ -107,6 +157,8 @@
 				    }
 			   });// End ajax
 			}, 100);
+
+        // Load list users
         $.ajax(
         {
             type: "GET",
@@ -115,9 +167,44 @@
             success: function (data) {
               App.loading(false);
               $.each(data, function(i, theItem){
-                $("#list-users").append('<tr><td>' + theItem.username + '</td><td>'+getPosition(theItem.role_name)+'</td><td><span onclick="editUser('+ theItem.id +')">Sửa</span> | <span onclick="destroyUser('+ theItem.id +')">Xóa</span></td></tr>');
+                $("#list-users").append('<tr><td>' + theItem.username + '</td><td>'+getPosition(theItem.role_name)+'</td></tr>');
               });
-              $("#total-money-today").html(data.sum_money + 'K');
+            },
+            error: function (error) {
+              App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+              App.loading(false);
+            }
+         });// End ajax
+
+        // Load list foods
+        $.ajax(
+        {
+            type: "GET",
+            url: 'http://localhost:3000/api/v1/foods',
+            dataType: "json",
+            success: function (data) {
+              App.loading(false);
+              $.each(data, function(i, theItem){
+                $("#admin-list-foods").append('<tr><td>' + theItem.name + '</td><td>'+theItem.price+' K</td></tr>');
+              });
+            },
+            error: function (error) {
+              App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+              App.loading(false);
+            }
+         });// End ajax
+
+        // Load list tables
+        $.ajax(
+        {
+            type: "GET",
+            url: 'http://localhost:3000/api/v1/tables',
+            dataType: "json",
+            success: function (data) {
+              App.loading(false);
+              $.each(data, function(i, theItem){
+                $("#admin-list-tables").append('<tr><td>' + theItem.name + '</td><td></tr>');
+              });
             },
             error: function (error) {
               App.showAlert("Không thể load dữ liệu", function(){}, "OK");
@@ -151,9 +238,8 @@
                     success: function (data) {
                       App.loading(false);
                       App.showAlert("Thêm mới thành công!", function(){}, "OK");
-                      $("#list-users").append('<tr><td>' + data.username + '</td><td>'+getPosition(data.role_name)+'</td><td><span onclick="editUser('+ data.id +')">Sửa</span> | <span onclick="destroyUser('+ data.id +')">Xóa</span></td></tr>');
-                      console.log(data);
-
+                      $("#list-users").append('<tr><td>' + data.username + '</td><td>'+getPosition(data.role_name)+'</td></tr>');
+                      $(".tab3 input").val("");
                     },
                     error: function (error) {
                       App.loading(false);
@@ -164,6 +250,83 @@
         }else{
           App.showAlert("Vui lòng điền đầy đủ thông tin", function(){}, "OK");
         }
+      });
+
+      $("#add-new-food").click(function(){
+        // Check condition field
+        var food_name = $("#food_name").val().trim();
+        var food_price = $("#food_price").val().trim();
+
+        //jQuery.support.cors = true;
+        if(food_name != "" && food_price != "" ){
+          // Check internet connection
+          // if(!App.hasInternet()){
+          //  App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+          //  return;
+          // }
+
+          App.loading(true);
+          $.ajax(
+                {
+                    type: "POST",
+                    url: 'http://localhost:3000/api/v1/foods',
+                    data: {food: {name : food_name, price : food_price}},
+                    dataType: "json",
+                    success: function (data) {
+                      App.loading(false);
+                      App.showAlert("Thêm mới thành công!", function(){}, "OK");
+                      $("#admin-list-foods").append('<tr><td>' + data.food.name + '</td><td>'+data.food.price+' K</td></tr>');
+                      $(".tab4 input").val("");
+                    },
+                    error: function (error) {
+                      App.loading(false);
+                      App.showAlert("Lỗi!", function(){}, "OK");
+                      console.log(error);
+                    }
+               });// End ajax
+        }else{
+          App.showAlert("Vui lòng điền đầy đủ thông tin", function(){}, "OK");
+        }
+      });
+
+      $("#add-new-table").click(function(){
+        // Check condition field
+        var table_name = $("#table_name").val().trim();
+
+        //jQuery.support.cors = true;
+        if(table_name != ""){
+          // Check internet connection
+          // if(!App.hasInternet()){
+          //  App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+          //  return;
+          // }
+
+          App.loading(true);
+          $.ajax(
+                {
+                    type: "POST",
+                    url: 'http://localhost:3000/api/v1/tables',
+                    data: {table: {name : table_name}},
+                    dataType: "json",
+                    success: function (data) {
+                      App.loading(false);
+                      App.showAlert("Thêm mới thành công!", function(){}, "OK");
+                      $("#admin-list-tables").append('<tr><td>' + data.table.name + '</td></tr>');
+                      $(".tab5 input").val("");
+                    },
+                    error: function (error) {
+                      App.loading(false);
+                      App.showAlert("Lỗi!", function(){}, "OK");
+                      console.log(error);
+                    }
+               });// End ajax
+        }else{
+          App.showAlert("Vui lòng điền đầy đủ thông tin", function(){}, "OK");
+        }
+      });
+
+      $("button[type='reset']").click(function(){
+        $("input").val("");
       });
 
       function getPosition(role_name){

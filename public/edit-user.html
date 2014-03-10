@@ -1,36 +1,116 @@
-<div data-role="page" id="shop-manager-page" class="relative">
+<div data-role="page" id="shop-manager-edit-user-page" class="relative">
   <div data-role="header" class="header fixed">
       Chỉnh sửa thông tin
       <span class="logout right-side" onclick="logout()">Thoát</span>
     </div><!-- /header -->
-  <div id="shop-manager-page-content" data-role="content" class="relative no-padding">
+  <div id="shop-manager-edit-user-page-content" data-role="content" class="relative no-padding">
 
         <div class="tab-content notebook-wrapper">
           <h2 class="bold center m-t-large">Thay đổi thông tin</h2>
-                <input type="text" id="employee_name" placeholder="Mã nhân viên" />
-                <input type="password" id="employee_password" placeholder="Mật khẩu" />
-                <p>Vị trí:</p>
-                <select id="employee_position" name="employee_position">
-                  <option value="employee">Phục vụ</option>
-                  <option value="chef">Chế biến</option>
-                </select>
-                <div class="one-two left">
-                  <button type="reset">Làm lại</button>
-              </div>
-              <div class="one-two right">
-                  <button type="button" id="add-new-people">Thêm</button>
-                </div>
+            <input type="text" id="employee_name" placeholder="Mã nhân viên" />
+            <input type="password" id="employee_password" placeholder="Mật khẩu" />
+            <p>Vị trí:</p>
+            <select id="employee_position" name="employee_position">
+              <option value="employee">Phục vụ</option>
+              <option value="chef">Chế biến</option>
+            </select>
         </div>
         </div><!-- End #tab-content -->
         <div data-role="navbar" id="navbar" style="z-index: 999;">
             <ul>
-                <li><a href="#">Quay lại</a></li>
-                <li><a href="#" class="ui-btn-active">Cập nhật</a></li>
+                <li><a href="#" onclick="back()">Quay lại</a></li>
+                <li><a href="#" class="ui-btn-active" onclick="update()">Cập nhật</a></li>
             </ul>
         </div><!-- End #navbar -->
-    </div><!-- End #shop-manager-page-content -->
+    </div><!-- End #shop-manager-edit-user-page-content -->
     <script type="text/javascript">
+      $("#shop-manager-edit-user-page").ready(function(){
+        $(".notebook-wrapper").height($(window).height());
+
+        // Get data from server
+          // Data is list of table and these table status
+          // Check internet connection
+        // if(!App.hasInternet()){
+        //  App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+        //  return;
+        // }
+        setTimeout(function(){
+          personID = App.urlParam('user_id');
+          App.loading(true);
+          $.ajax(
+          {
+              type: "GET",
+              url: 'http://localhost:3000/api/v1/users/' + personID + '/edit',
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                $("#employee_name").val("");
+                $("#employee_password").val("");
+                App.loading(false);
+                // Load data into textbox
+                $("#employee_name").val(data.username);
+                if(data.role_name == "employee"){
+                  $("select#employee_position option[value='employee']").attr("selected", true);
+                }else{
+                  $("select#employee_position").empty();
+                  $("select#employee_position").append("<option value='chef'>Chế biến</option>");
+                  $("select#employee_position").append("<option value='employee'>Phục vụ</option>");
+                  $("select#employee_position option[value='chef']").attr("selected", true);
+                }
+              },
+              error: function (error) {
+                App.showAlert("Không thể load dữ liệu", function(){}, "OK");
+                App.loading(false);
+              }
+           });// End ajax
+        }, 200);
+      });
+
+      function back(){
+        navigator.app.backHistory();
+      };
+
+      function update(){
+        // Check condition field
+        var username = $("#employee_name").val().trim();
+        var password = $("#employee_password").val().trim();
+        var position = $("#employee_position").val();
+
+
+
+        //jQuery.support.cors = true;
+        if(username != "" && password != "" ){
+          // Check internet connection
+          // if(!App.hasInternet()){
+          //  App.showAlert("Vui lòng kiểm tra kết nối mạng!", function(){}, "OK");
+          //  return;
+          // }
+
+          App.loading(true);
+          $.ajax(
+                {
+                    type: "PUT",
+                    url: 'http://localhost:3000/api/v1/users/' + personID,
+                    data: {user: {username : username, password : password}, position: position},
+                    dataType: "json",
+                    success: function (data) {
+                      App.loading(false);
+                      App.showAlert("Cập nhật thành công!", function(){}, "OK");
+                      navigator.app.backHistory();
+
+                    },
+                    error: function (error) {
+                      App.loading(false);
+                      App.showAlert("Lỗi!", function(){}, "OK");
+                      console.log(error);
+                    }
+               });// End ajax
+        }else{
+          App.showAlert("Vui lòng điền đầy đủ thông tin", function(){}, "OK");
+        }
+      };
+
       function logout(){
         App.gotoPage("login.html");
-      }
+      };
     </script>
