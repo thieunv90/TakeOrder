@@ -25,6 +25,7 @@
 #   timeout: 5000
 login: &login
   adapter: postgresql
+  encoding: utf8
   username: postgres
   password: postgres
   host: localhost

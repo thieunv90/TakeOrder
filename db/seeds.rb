@@ -45,10 +45,10 @@ end
 
 # Create Food
 food_arr = ["Mỳ Quảng", "Nem Chua Huế", "Tôm Kho Đánh", "Bánh Canh Cua", "Cơm Gà Tam Kỳ", "Mực Nướng Ngũ Vị", "Vả Trộn", "Cơm Hến", "Bún Bò Huế", "Vịt Gói Lá Sen"]
-food_arr.each do |food|
-  food = Food.find_by_name(food)
+food_arr.each do |f|
+  food = Food.find_by_name(f)
   if !food
-    food = Food.new(name: food, price: Random.rand(50000))
+    food = Food.new(name: f, price: Random.rand(50000))
     food.save
   end
 end
