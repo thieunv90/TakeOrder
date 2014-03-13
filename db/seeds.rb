@@ -1,3 +1,4 @@
+# coding: utf-8
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -43,10 +44,11 @@ for m in 1..10 do
 end
 
 # Create Food
-for n in 1..10 do
-  food = Food.find_by_name("Food #{n}")
+food_arr = ["Mỳ Quảng", "Nem Chua Huế", "Tôm Kho Đánh", "Bánh Canh Cua", "Cơm Gà Tam Kỳ", "Mực Nướng Ngũ Vị", "Vả Trộn", "Cơm Hến", "Bún Bò Huế", "Vịt Gói Lá Sen"]
+food_arr.each do |food|
+  food = Food.find_by_name(food)
   if !food
-    food = Food.new(name: "Food #{n}", price: Random.rand(50000))
+    food = Food.new(name: food, price: Random.rand(50000))
     food.save
   end
 end

@@ -6,6 +6,7 @@ class Api::V1::TablesController < Api::V1::ApiController
   end
   def create
     table = Table.new(params[:table])
+    table.status = 1
     if table.save
       render :json => {success: true, table: table}
     else
